@@ -5,14 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.MainActivity">
-
-    <WebView
-        android:id="@+id/webView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></WebView>
-
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler"
+        android:id="@+id/recyclerFavorites"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,6 +23,3 @@
         android:layout_alignParentBottom="true"
         app:menu="@menu/item_nav" />
 </RelativeLayout>
-
-
-

@@ -1,21 +1,23 @@
-package com.yaskovskiy.testwork;
+package com.yaskovskiy.testwork.Adapter;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.media.Image;
+import android.content.Context;
+
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.yaskovskiy.testwork.Model.Item;
+import com.yaskovskiy.testwork.R;
 
 import java.util.List;
 
@@ -32,11 +34,12 @@ class LoadingViewHolder extends RecyclerView.ViewHolder {
 }
 
 class ItemViewHolder extends RecyclerView.ViewHolder {
-    public TextView name, text, date, link;
+    public TextView name, link;
     public ImageView img, favImg;
-    public CardView cardView;
 
-//    private ItemClickListener itemClickListener;
+    public ImageView getImage(){
+        return this.img;
+    }
 
     public void bind(){
         name = (TextView) itemView.findViewById(R.id.txtName);
@@ -62,10 +65,12 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     List<Item> items;
     int visibleThreshold = 5;
     int lastVisibleItem, totalItemCount;
+    private Context context;
 
-    public Adapter(RecyclerView recyclerView, Activity activity, List<Item> items) {
+    public Adapter(Context context,RecyclerView recyclerView, Activity activity, List<Item> items) {
         this.activity = activity;
         this.items = items;
+        this.context = context;
 
         final LinearLayoutManager linearLayoutManager = (LinearLayoutManager)recyclerView.getLayoutManager();
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -106,18 +111,18 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
         return null;
     }
-    
+
+
+    public String linkUrl;
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position){
 
         if(holder instanceof ItemViewHolder){
-            Item item = items.get(position);
+//            Item item = items.get(position);
             ItemViewHolder viewHolder = (ItemViewHolder) holder;
             viewHolder.name.setText(items.get(position).getName());
-            viewHolder.link.setText(items.get(position).getLink());
-//            viewHolder.favImg.setImageURI("");
-//            Picasso.get().load(img).error(R.drawable.ic_launcher_background).into(holder.image);
-
+            viewHolder.link.setHint(items.get(position).getLink());
+            Picasso.with(context).load(items.get(position).getImg()).error(R.drawable.ic_launcher_background).into(((ItemViewHolder) holder).img);
         } else if(holder instanceof LoadingViewHolder){
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             LoadingViewHolder.progressBar.setIndeterminate(true);

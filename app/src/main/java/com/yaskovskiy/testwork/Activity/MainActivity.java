@@ -1,56 +1,38 @@
-package com.yaskovskiy.testwork;
+package com.yaskovskiy.testwork.Activity;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.yaskovskiy.testwork.Adapter.Adapter;
+import com.yaskovskiy.testwork.Model.Item;
+import com.yaskovskiy.testwork.R;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
-import Interface.ILoadMore;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public static final String EXTRA_MESSAGE = "com.yaskovskiy.testwork.MESSAGE";
-
-    private WebViewClient client;
-    private WebView webView;
+    public static final String URL = "com.yaskovskiy.testwork.MESSAGE";
 
     List<Item> items = new ArrayList<>();
-    ArrayList<String> test = new ArrayList<>();
 
     String sUrl;
 
-    String title, name, text;
-
     Adapter adapter;
-    CardView cardView;
     RecyclerView rv;
     RecyclerView recycler;
     BottomNavigationView bottomNavigationView;
@@ -68,15 +50,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         recycler.setLayoutManager(new LinearLayoutManager(this));
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(0);
+        menuItem.setChecked(true);
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.nav_adme:
-//                        Intent intent = new Intent(MainActivity.this, PostShowActivity)
                         break;
                     case R.id.nav_fav:
-//                        Intent intent = new Intent(MainActivity.this, PostShowActivity)
+                        Intent intent = new Intent(MainActivity.this, FavoritesActivity.class);
+                        startActivity(intent);
                         break;
                 }
                 return false;
@@ -84,15 +70,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         new NewThread().execute();
-        adapter = new Adapter(recycler, this, items);
+        adapter = new Adapter(getApplicationContext(),recycler, this, items);
 
     }
 
     public void onUrlClick(final View view) {
         Intent intent = new Intent(this, PostShowActivity.class);
         TextView textView = (TextView) view;
-        sUrl = String.valueOf(textView.getText());
-        intent.putExtra(EXTRA_MESSAGE, sUrl);
+        sUrl = String.valueOf(textView.getHint());
+        intent.putExtra(URL, sUrl);
         startActivity(intent);
 //        webView.loadUrl(sUrl);
     }
@@ -101,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected String doInBackground(String... args) {
             Elements content1, content2;
-            Element tel;
             Document doc;
             try {
                 doc = Jsoup.connect("http://www.adme.ua/news/").get();
@@ -109,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 content2 = doc.select("div > div > div > div > div > div > a > img");
                 items.clear();
                 for (int i = 0; i < content1.size(); i++) {
-                    Item item = new Item(content1.get(i).text(), "http://www.adme.ua" + content1.get(i).attr("href"));
+                    Item item = new Item(content1.get(i).text(), "http://www.adme.ua" + content1.get(i).attr("href"), content2.get(i).attr("src"));
                     items.add(item);
 
                 }

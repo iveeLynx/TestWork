@@ -1,4 +1,4 @@
-package com.yaskovskiy.testwork;
+package com.yaskovskiy.testwork.Activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.yaskovskiy.testwork.Activity.MainActivity;
+import com.yaskovskiy.testwork.R;
+import com.yaskovskiy.testwork.webViewClient;
 
 public class PostShowActivity extends AppCompatActivity {
 
@@ -20,7 +24,7 @@ public class PostShowActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post_show);
 
         Intent intent = getIntent();
-        url = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        url = intent.getStringExtra(MainActivity.URL);
 
         webView = (WebView) findViewById(R.id.webViewPostShow);
         webView.setWebViewClient(new webViewClient(this));
@@ -28,5 +32,7 @@ public class PostShowActivity extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         webView.loadUrl(url);
+
+
     }
 }

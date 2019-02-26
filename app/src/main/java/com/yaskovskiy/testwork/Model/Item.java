@@ -1,4 +1,4 @@
-package com.yaskovskiy.testwork;
+package com.yaskovskiy.testwork.Model;
 
 public class Item {
     private String title;
@@ -8,9 +8,10 @@ public class Item {
     private String name;
     private String link;
 
-    public Item(String name, String link) {
+    public Item(String name, String link, String image) {
         this.name = name;
         this.link = link;
+        this.img = image;
     }
 
     public String getLink() {
@@ -20,13 +21,6 @@ public class Item {
     public void setLink(String link) {
         this.link = link;
     }
-    //    public Item(String title, String text){
-////        this.name = name;
-////        this.length = length;
-////        this.date = date;
-//        this.title = title;
-//        this.text = text;
-//    }
 
     public String getName() {
         return name;

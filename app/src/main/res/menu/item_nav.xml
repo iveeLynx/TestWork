@@ -5,7 +5,7 @@
     <item
         android:id="@+id/nav_adme"
         android:enabled="true"
-        android:icon="@drawable/ic_fav"
+        android:icon="@drawable/ic_adme"
         android:title="Adme"
         app:showAsAction="ifRoom"/>
 
