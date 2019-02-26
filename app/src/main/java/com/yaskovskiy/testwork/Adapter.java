@@ -38,14 +38,17 @@ class ItemViewHolder extends RecyclerView.ViewHolder {
 
 //    private ItemClickListener itemClickListener;
 
-    public ItemViewHolder(View itemView) {
-        super(itemView);
+    public void bind(){
         name = (TextView) itemView.findViewById(R.id.txtName);
         link = (TextView) itemView.findViewById(R.id.txtLink);
         img = (ImageView) itemView.findViewById(R.id.imageName);
         favImg = (ImageView) itemView.findViewById(R.id.favorite);
+    }
 
-//        itemView.setOnClickListener(this);
+    public ItemViewHolder(View itemView) {
+        super(itemView);
+        bind();
+
     }
 
 }

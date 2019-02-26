@@ -1,16 +1,20 @@
 package com.yaskovskiy.testwork;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,28 +53,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     CardView cardView;
     RecyclerView rv;
     RecyclerView recycler;
-
-//    @Override
-//    public boolean onTouch(View v)
+    BottomNavigationView bottomNavigationView;
 
     @Override
     public void onClick(View v) {
 
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        webView = (WebView) findViewById(R.id.webView);
-//        webView = (WebView) findViewById(R.id.webViewPostShow);
-//        webView.setWebViewClient(new webViewClient(this));
-//        webView.getSettings().setLoadsImagesAutomatically(true);
-//        webView.getSettings().setJavaScriptEnabled(true);
-//        webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         recycler = (RecyclerView) findViewById(R.id.recycler);
         recycler.setLayoutManager(new LinearLayoutManager(this));
+
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.nav_adme:
+//                        Intent intent = new Intent(MainActivity.this, PostShowActivity)
+                        break;
+                    case R.id.nav_fav:
+//                        Intent intent = new Intent(MainActivity.this, PostShowActivity)
+                        break;
+                }
+                return false;
+            }
+        });
 
         new NewThread().execute();
         adapter = new Adapter(recycler, this, items);
@@ -89,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public class NewThread extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... args) {
-//            webView.setOnTouchListener(this);
             Elements content1, content2;
             Element tel;
             Document doc;
@@ -101,25 +111,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 for (int i = 0; i < content1.size(); i++) {
                     Item item = new Item(content1.get(i).text(), "http://www.adme.ua" + content1.get(i).attr("href"));
                     items.add(item);
-                    //FIRST FOR WORKS! JUST CHECK ITERATIONS
-                    //CHECK THE CYCLE
-                    //ADD IMAGES
 
                 }
-//                for (Element titles : content1) {
-//                    Item item = new Item(titles.text(), "http://www.adme.ua" + titles.attr("href"));
-//                    items.add(item);
-//                }
-
-//                doc = Jsoup.connect("https://habr.com/ru/").get();
-//                content1 = doc.select(".post__title_link");
-//                content2 = doc.select(".post__title_link");
-//                items.clear();
-//                for (Element titles : content2) {
-//
-//                    Item item = new Item(titles.text(), titles.attr("href"));
-//                    items.add(item);
-//                }
             } catch (Exception ex) {
 
             }
